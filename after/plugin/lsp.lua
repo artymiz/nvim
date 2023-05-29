@@ -3,10 +3,11 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 
 lsp.ensure_installed({
-  'tsserver',
-  'eslint',
   'sumneko_lua',
   'rust_analyzer',
+  'tsserver',
+  'clangd',
+  'tailwindcss',
 })
 
 -- Fix Undefined global 'vim'
@@ -18,6 +19,23 @@ lsp.configure('sumneko_lua', {
             }
         }
     }
+})
+
+local on_attach = function(client, bufnr)
+  -- format on save
+  if client.server_capabilities.documentFormattingProvider then
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = vim.api.nvim_create_augroup("Format", { clear = true }),
+      buffer = bufnr,
+      callback = function() vim.lsp.buf.formatting_seq_sync() end
+    })
+  end
+end
+
+lsp.configure('tsserver', {
+  on_attach = on_attach,
+  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+  cmd = { "typescript-language-server", "--stdio" }
 })
 
 
@@ -36,7 +54,10 @@ cmp_mappings['<Tab>'] = nil
 cmp_mappings['<S-Tab>'] = nil
 
 lsp.setup_nvim_cmp({
-  mapping = cmp_mappings
+  mapping = cmp_mappings,
+  completion = {
+    completeopt = 'menu,menuone,noinsert,noselect'
+  }
 })
 
 lsp.set_preferences({
