@@ -1,4 +1,4 @@
-require("arymiz.set")
+require("artymiz.set")
 require("artymiz.remap")
 
 local augroup = vim.api.nvim_create_augroup
