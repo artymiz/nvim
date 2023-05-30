@@ -1,2 +1,2 @@
-require("artymiz")
+require("config")
 
