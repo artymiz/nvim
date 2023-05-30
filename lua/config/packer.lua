@@ -43,11 +43,29 @@ return require('packer').startup(function(use)
       end,
   }
 
+  -- Lua
+  use {
+      "folke/which-key.nvim",
+      config = function()
+          vim.o.timeout = true
+          vim.o.timeoutlen = 300
+          require("which-key").setup {
+              -- your configuration comes here
+              -- or leave it empty to use the default settings
+              -- refer to the configuration section below
+          }
+      end
+  }
+
   use('nvim-treesitter/playground')
   use('theprimeagen/harpoon')
   use('mbbill/undotree')
   use('tpope/vim-fugitive')
+
   use('mfussenegger/nvim-dap')
+  use('jay-babu/mason-nvim-dap.nvim')
+  use("theHamsta/nvim-dap-virtual-text")
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
 
   use {
 	  'VonHeikemen/lsp-zero.nvim',

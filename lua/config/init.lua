@@ -1,8 +1,9 @@
-require("artymiz.set")
-require("artymiz.remap")
+require("config.set")
+require("config.remap")
+require("config.dap.init").setup()
 
 local augroup = vim.api.nvim_create_augroup
-local ArtymizGroup = augroup('Artymiz', {})
+local ConfigGroup = augroup('Config', {})
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
@@ -23,7 +24,7 @@ autocmd('TextYankPost', {
 })
 
 autocmd({"BufWritePre"}, {
-    group = ArtymizGroup,
+    group = ConfigGroup,
     pattern = "*",
     command = [[%s/\s\+$//e]],
 })
